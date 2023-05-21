@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <title>Portel</title>
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+    html, body {
+    height: 100%;
+    width: 100%;
+  }
+  body {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #1997c5, #00ffc3); 
+      background-size: 400% 400%;
+      animation: gradient 10s ease infinite;
+      height: 100vh;
+  }
+  
+  @keyframes gradient {
+      0% {
+          background-position: 0% 50%;
+      }
+      50% {
+          background-position: 100% 50%;
+      }
+      100% {
+          background-position: 0% 50%;
+      }
+  }
+  
+      body {
+        font-family: monospace;
+      }
+      h1 {
+        color: rgb(255, 255, 255);
+        display: inline-block;
+        font-size: 2em;
+        margin: 0;
+        padding: 10px;
+      }
+      #chatbox {
+        margin-left: auto;
+        margin-right: auto;
+        width: 55%;
+        margin-top: 60px;
+      }
+      #userInput {
+        margin-left: auto;
+        margin-right: auto;
+        width: 40%;
+        margin-top: 60px;
+      }
+      #textInput {
+        width: 90%;
+        border: none;
+        border-bottom: 3px solid #1982FC;
+        font-family: monospace;
+        font-size: 17px;
+        margin-bottom: 10px;
+        
+      }
+      .userText {
+        color: black;
+       font-family: monospace;
+        font-size: 17px;
+        text-align: right;
+        line-height: 30px;
+        border-radius: 5px;
+        margin-top: 25px;
+      }
+      .userText span {
+
+        padding: 10px;
+        border-radius: 7px;
+        box-shadow: 8px 7px 6px 5px #888888;
+        background-color: #1982FC;
+      }
+      .botText {
+        color: black;
+        font-family: monospace;
+        font-size: 17px;
+        text-align: left;
+        line-height: 30px;
+        background-color: #ffffff ;
+        border-radius: 7px;
+        box-shadow: 8px 7px 6px 5px #888888;
+      }
+      .botText span {
+        padding: 10px;
+        border-radius: 2px;
+        color: #000000;
+            }
+      #tidbit {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 300px;
+      }
+      .boxed {
+        margin-left: auto;
+        margin-right: auto;
+        width: 70%;
+        margin-top: 60px;
+        border: 1px solid rgb(255, 255, 255);
+        background-color: #fffffff4;
+        padding: 20px;
+        border-radius: 25px;
+      }
+      
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #0f5a5e;
+}
+      .box {
+        border: 2px solid rgb(0, 0, 0);
+      }
+    </style>
+  </head>
+  <body>
+    <ul>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" >
+      <li><a href="../templates/index.html">Chatbot</a></li>
+      <li style="float:right"><a class="active" href="https://hackphs.adi102.repl.co/pages/aboutus/aboutus.html">About</a></li>
+      <li style="float:right"><a class="active" href="https://hackphs.adi102.repl.co/pages/info/info.html">Info</a></li>
+    </ul>
+    <center>
+      <h1>
+        Portel
+      </h1>
+    </center>
+    <div class="box"></div>
+    <div class="boxed">
+      <div>
+        <div id="chatbox">
+          <span><img src = "https://cdn.iconscout.com/icon/premium/png-256-thumb/ai-robot-5-1089411.png" alt = "Hello" width = "25"></span>  
+          <span><p class="botText">
+            <span>Hi! Ny name is Portel. How can I help?</span>
+          </p></span>
+          
+        </div>
+        <div id="userInput">
+          <input id="textInput" type="text" name="msg" placeholder="Enter message here..." />
+        </div>
+      </div>
+      <script>
+        function getBotResponse() {
+          var image = '<img src = "https://cdn.iconscout.com/icon/premium/png-256-thumb/ai-robot-5-1089411.png" alt = "Hello" width = "25">';
+          var rawText = $("#textInput").val();
+          var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
+          $("#textInput").val("");
+          $("#chatbox").append(userHtml);
+          document
+            .getElementById("userInput")
+            .scrollIntoView({ block: "start", behavior: "smooth" });
+          $.get("/get", { msg: rawText }).done(function(data) {
+            var botHtml = image+'<p class="botText"><span>' + data + "</span></p>";
+            
+            $("#chatbox").append(botHtml);
+            document
+              .getElementById("userInput")
+              .scrollIntoView({ block: "start", behavior: "smooth" });
+          });
+        }
+        $("#textInput").keypress(function(e) {
+          if (e.which == 13) {
+            getBotResponse();
+          }
+        });
+      </script>
+    </div>
+  </body>
+</html>
